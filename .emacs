@@ -30,6 +30,17 @@
 
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
+;; cc-mode indentation & layout
+
+(defun my-c++-mode-hook () (setq c-basic-offset 4
+                                 c-default-style "linux"
+                                 indent-tabs-mode nil
+                                 tab-width 4))
+
+(add-hook 'c++-mode-hook 'my-c++-mode-hook)
+
+;;
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -38,7 +49,9 @@
  '(custom-safe-themes
    (quote
     ("14f0fbf6f7851bfa60bf1f30347003e2348bf7a1005570fd758133c87dafe08f" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" default)))
- '(package-selected-packages (quote (zenburn-theme color-theme-solarized ##))))
+ '(package-selected-packages
+   (quote
+    (csharp-mode zenburn-theme color-theme-solarized ##))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
