@@ -6,6 +6,12 @@
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
 
+;; shorter predicate
+(fset 'yes-or-no-p 'y-or-not-p)
+
+;; redirect backup directory
+(setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
+
 (load-theme 'zenburn t)
 
 (setq-default default-tab-width 4)
