@@ -7,13 +7,24 @@
 (tool-bar-mode -1)
 
 ;; shorter predicate
-(fset 'yes-or-no-p 'y-or-not-p)
+(fset 'yes-or-no-p 'y-or-n-p)
 
 ;; redirect backup directory
 (setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
 
+;; winner mode
+(use-package winner
+  :bind
+  (("C-c p" . winner-undo)
+   ("C-c n" . winner-redo)
+   ))
+
+(winner-mode 1)
+
+;; color theming
 (load-theme 'zenburn t)
 
+;; default indentation
 (setq-default default-tab-width 4)
 (setq-default indent-tabs-mode nil)
 (setq indent-line-function 'insert-tab)
