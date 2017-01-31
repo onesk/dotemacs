@@ -30,13 +30,11 @@
 (setq indent-line-function 'insert-tab)
 
 ;; Steve Yegge effective-emacs
-
 (global-set-key "\C-x\C-m" 'execute-extended-command)
 (global-set-key "\C-w" 'backward-kill-word)
 (global-set-key "\C-x\C-k" 'kill-region)
 
 ;; Remap backspace to C-h
-
 (global-set-key "\C-h" 'backward-delete-char-untabify)
 (define-key isearch-mode-map "\C-h" 'isearch-delete-char)
 (global-set-key [(super h)] 'help-command)
@@ -49,11 +47,14 @@
 
 ;; cc-mode indentation & layout
 
+(defun my-c-mode-hook () (local-set-key (kbd "C-c o") 'ff-find-other-file))
+
 (defun my-c++-mode-hook () (setq c-basic-offset 4
                                  c-default-style "linux"
                                  indent-tabs-mode nil
                                  tab-width 4))
 
+(add-hook 'c-mode-hook 'my-c-mode-hook)
 (add-hook 'c++-mode-hook 'my-c++-mode-hook)
 
 ;;
