@@ -55,7 +55,16 @@
                                  tab-width 4))
 
 (add-hook 'c-mode-hook 'my-c-mode-hook)
+
+(add-hook 'c++-mode-hook 'my-c-mode-hook)
 (add-hook 'c++-mode-hook 'my-c++-mode-hook)
+
+;; python-mode for SCons by default
+
+(add-to-list 'auto-mode-alist '("SConscript" . python-mode))
+(add-to-list 'auto-mode-alist '("SConstruct" . python-mode))
+(add-to-list 'auto-mode-alist '("Swigscript" . python-mode))
+(add-to-list 'auto-mode-alist '("Linkscript" . python-mode))
 
 ;;
 
@@ -76,3 +85,5 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
+(put 'set-goal-column 'disabled nil)
