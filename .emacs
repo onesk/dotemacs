@@ -1,3 +1,11 @@
+;; inherit bashrc defaults
+
+(let ((path-from-shell (replace-regexp-in-string "[ \t\n]*$" "" (shell-command-to-string "$SHELL --login -i -c 'echo $PATH'"))))
+  (setenv "PATH" path-from-shell)
+  (setq exec-path (split-string path-from-shell path-separator)))
+
+;; ELPA / MELPA setup
+
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
 (add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/") t)
