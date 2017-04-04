@@ -54,10 +54,15 @@
 
 (global-set-key (kbd "C-c g") 'counsel-git)
 (global-set-key (kbd "C-c j") 'counsel-git-grep)
-(global-set-key (kbd "C-c k") 'counsel-ag)
 
 (setq ivy-use-virtual-buffers t)
 (setq ivy-count-format "(%d/%d) ")
+
+;; projectile (w/counsel)
+
+(projectile-mode)
+(define-key projectile-mode-map [(super p)] 'projectile-command-map)
+(counsel-projectile-on)
 
 ;;
 
@@ -98,7 +103,7 @@
     ("14f0fbf6f7851bfa60bf1f30347003e2348bf7a1005570fd758133c87dafe08f" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" default)))
  '(package-selected-packages
    (quote
-    (magit rust-mode csharp-mode zenburn-theme color-theme-solarized ##))))
+    (geben-helm-projectile counsel-projectile counsel ivy magit rust-mode csharp-mode zenburn-theme color-theme-solarized ##))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
