@@ -66,6 +66,19 @@
 (projectile-mode)
 (counsel-projectile-on)
 
+;; company
+
+(require 'company)
+(setq company-idle-delay nil)
+
+(defun complete-or-indent ()
+  (interactive)
+  (if (company-manual-begin)
+      (company-complete-common)
+    (indent-according-to-mode)))
+
+(global-set-key (kbd "C-M-/") 'complete-or-indent)
+
 ;;
 
 (set-default 'truncate-lines t)
@@ -105,7 +118,7 @@
     ("14f0fbf6f7851bfa60bf1f30347003e2348bf7a1005570fd758133c87dafe08f" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" default)))
  '(package-selected-packages
    (quote
-    (geben-helm-projectile counsel-projectile counsel ivy magit rust-mode csharp-mode zenburn-theme color-theme-solarized ##))))
+    (company geben-helm-projectile counsel-projectile counsel ivy magit rust-mode csharp-mode zenburn-theme color-theme-solarized ##))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
