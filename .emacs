@@ -60,8 +60,10 @@
 
 ;; projectile (w/counsel)
 
+(setq projectile-keymap-prefix (kbd "C-c C-p"))
+(require 'projectile)
+
 (projectile-mode)
-(define-key projectile-mode-map [(super p)] 'projectile-command-map)
 (counsel-projectile-on)
 
 ;;
