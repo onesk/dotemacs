@@ -1,8 +1,12 @@
 ;; inherit bashrc defaults
 
-(let ((path-from-shell (replace-regexp-in-string "[ \t\n]*$" "" (shell-command-to-string "$SHELL --login -i -c 'echo $PATH'"))))
-  (setenv "PATH" path-from-shell)
-  (setq exec-path (split-string path-from-shell path-separator)))
+(defun import-shell-var (name)
+  (let ((path-from-shell (replace-regexp-in-string "[ \t\n]*$" "" (shell-command-to-string (concat "$SHELL --login -i -c 'echo $" name "'")))))
+    (setenv name path-from-shell)
+    (setq exec-path (split-string path-from-shell path-separator))))
+
+(import-shell-var "PATH")
+(import-shell-var "RUST_SRC_PATH")
 
 ;; ELPA / MELPA setup
 
@@ -114,6 +118,26 @@
 (add-to-list 'auto-mode-alist '("Swigscript" . python-mode))
 (add-to-list 'auto-mode-alist '("Linkscript" . python-mode))
 
+
+;; Rust development environment
+
+(require 'racer)
+
+(add-hook 'rust-mode-hook
+          (lambda () (local-set-key (kbd "C-c <tab>") #'rust-format-buffer)))
+
+(setq racer-cmd (concat (getenv "HOME") "/.cargo/bin/racer"))
+(setq racer-rust-src-path (expand-file-name (getenv "RUST_SRC_PATH")))
+
+(add-hook 'rust-mode-hook #'racer-mode)
+(add-hook 'rust-mode-hook #'cargo-minor-mode)
+(add-hook 'racer-mode-hook #'eldoc-mode)
+(add-hook 'racer-mode-hook #'company-mode)
+
+;; TODO RECONSIDER
+;; (local-set-key (kbd "TAB") #'company-indent-or-complete-common)
+;; (local-set-key (kbd "C-c <tab>") #'rust-format-buffer)))
+
 ;;
 
 (custom-set-variables
@@ -126,7 +150,7 @@
     ("14f0fbf6f7851bfa60bf1f30347003e2348bf7a1005570fd758133c87dafe08f" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" default)))
  '(package-selected-packages
    (quote
-    (company geben-helm-projectile counsel-projectile counsel ivy magit rust-mode csharp-mode zenburn-theme color-theme-solarized ##))))
+    (f company-racer racer cargo company geben-helm-projectile counsel-projectile counsel ivy magit rust-mode csharp-mode zenburn-theme color-theme-solarized ##))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
