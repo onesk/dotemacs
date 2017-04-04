@@ -44,6 +44,21 @@
 
 (global-set-key (kbd "C-x g s") 'magit-status)
 
+;; ivy/counsel/swiper
+
+(ivy-mode 1)
+(global-set-key (kbd "C-s") 'swiper)
+(global-set-key (kbd "C-c C-r") 'ivy-resume)
+
+(global-set-key (kbd "M-x") 'counsel-M-x)
+
+(global-set-key (kbd "C-c g") 'counsel-git)
+(global-set-key (kbd "C-c j") 'counsel-git-grep)
+(global-set-key (kbd "C-c k") 'counsel-ag)
+
+(setq ivy-use-virtual-buffers t)
+(setq ivy-count-format "(%d/%d) ")
+
 ;;
 
 (set-default 'truncate-lines t)
