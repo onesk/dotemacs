@@ -52,12 +52,20 @@
 (define-key isearch-mode-map "\C-h" 'isearch-delete-char)
 (global-set-key [(super h)] 'help-command)
 
-;; Magit-status
+;; discover-my-major
+(define-key 'help-command "\C-m" 'discover-my-major)
+(define-key 'help-command "\M-m" 'discover-my-mode)
 
+;; which-key
+(require 'which-key)
+(which-key-mode)
+(which-key-setup-side-window-right)
+(setq which-key-idle-delay 3.0)
+
+;; Magit-status
 (global-set-key (kbd "C-x g s") 'magit-status)
 
 ;; ivy/counsel/swiper
-
 (ivy-mode 1)
 (global-set-key (kbd "C-s") 'swiper)
 (global-set-key (kbd "C-c C-r") 'ivy-resume)
@@ -71,7 +79,6 @@
 (setq ivy-count-format "(%d/%d) ")
 
 ;; projectile (w/counsel)
-
 (setq projectile-keymap-prefix (kbd "C-c C-p"))
 (require 'projectile)
 
@@ -79,7 +86,6 @@
 (counsel-projectile-on)
 
 ;; company
-
 (require 'company)
 (setq company-idle-delay nil)
 
@@ -98,7 +104,6 @@
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ;; cc-mode indentation & layout
-
 (defun my-c-mode-hook () (local-set-key (kbd "C-c o") 'ff-find-other-file))
 
 (defun my-c++-mode-hook () (setq c-basic-offset 4
@@ -112,7 +117,6 @@
 (add-hook 'c++-mode-hook 'my-c++-mode-hook)
 
 ;; python-mode for SCons by default
-
 (add-to-list 'auto-mode-alist '("SConscript" . python-mode))
 (add-to-list 'auto-mode-alist '("SConstruct" . python-mode))
 (add-to-list 'auto-mode-alist '("Swigscript" . python-mode))
@@ -120,7 +124,6 @@
 
 
 ;; Rust development environment
-
 (require 'racer)
 
 (add-hook 'rust-mode-hook
@@ -150,7 +153,7 @@
     ("14f0fbf6f7851bfa60bf1f30347003e2348bf7a1005570fd758133c87dafe08f" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" default)))
  '(package-selected-packages
    (quote
-    (f company-racer racer cargo company geben-helm-projectile counsel-projectile counsel ivy magit rust-mode csharp-mode zenburn-theme color-theme-solarized ##))))
+    (which-key discover-my-major f company-racer racer cargo company geben-helm-projectile counsel-projectile counsel ivy magit rust-mode csharp-mode zenburn-theme color-theme-solarized ##))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
