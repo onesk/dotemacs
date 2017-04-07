@@ -52,6 +52,15 @@
 (define-key isearch-mode-map "\C-h" 'isearch-delete-char)
 (global-set-key [(super h)] 'help-command)
 
+;; Kill buffer closes pane
+(defun close-buffer-and-kill-window ()
+  (interactive)
+  (kill-this-buffer)
+  (if (not (one-window-p))
+      (delete-window)))
+
+(global-set-key (kbd "C-x M-k") 'close-buffer-and-kill-window)
+
 ;; discover-my-major
 (define-key 'help-command "\C-m" 'discover-my-major)
 (define-key 'help-command "\M-m" 'discover-my-mode)
