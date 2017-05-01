@@ -154,6 +154,39 @@
 ;; (local-set-key (kbd "TAB") #'company-indent-or-complete-common)
 ;; (local-set-key (kbd "C-c <tab>") #'rust-format-buffer)))
 
+;; Hydras
+
+(use-package hydra
+  :config
+  (defhydra my/window-movement ()
+    ("<left>" windmove-left)
+    ("<right>" windmove-right)
+    ("<down>" windmove-down)
+    ("<up>" windmove-up)
+    ("y" other-window "other")
+    ("f" find-file "file")
+    ("F" find-file-other-window "other file")
+    ("o" delete-other-windows :color blue)))
+
+;; Key chords
+
+(defun sachachua/key-chord-define (keymap keys command)
+  (if (/= 2 (length keys))
+      (error "Key-chord keys must have two elements"))
+  (let ((key1 (logand 255 (aref keys 0)))
+        (key2 (logand 255 (aref keys 1))))
+    (define-key keymap (vector 'key-chord key1 key2) command)))
+(fset 'key-chord-define 'sachachua/key-chord-define)
+
+(use-package key-chord
+  :init
+  (progn
+    (fset 'key-chord-define 'sachachua/key-chord-define)
+    (setq key-chord-one-key-delay 0.2)
+    (key-chord-mode 1)
+    (key-chord-define-global "uu" 'undo)
+    (key-chord-define-global "yy" 'my/window-movement/body)))
+
 ;;
 
 (custom-set-variables
@@ -166,7 +199,7 @@
     ("14f0fbf6f7851bfa60bf1f30347003e2348bf7a1005570fd758133c87dafe08f" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" default)))
  '(package-selected-packages
    (quote
-    (markdown-mode which-key discover-my-major f company-racer racer cargo company geben-helm-projectile counsel-projectile counsel ivy magit rust-mode csharp-mode zenburn-theme color-theme-solarized ##))))
+    (key-chord typing markdown-mode which-key discover-my-major f company-racer racer cargo company geben-helm-projectile counsel-projectile counsel ivy magit rust-mode csharp-mode zenburn-theme color-theme-solarized ##))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
