@@ -162,23 +162,24 @@
 
 (add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-mode))
 
-;; TODO RECONSIDER
-;; (local-set-key (kbd "TAB") #'company-indent-or-complete-common)
-;; (local-set-key (kbd "C-c <tab>") #'rust-format-buffer)))
+;; ace-window
 
-;; Hydras
+(require 'ace-window)
+(setq aw-keys '(?a ?e ?u ?d ?h ?t ?s))
+(setq aw-dispatch-always t)
 
-(use-package hydra
-  :config
-  (defhydra my/window-movement ()
-    ("<left>" windmove-left)
-    ("<right>" windmove-right)
-    ("<down>" windmove-down)
-    ("<up>" windmove-up)
-    ("y" other-window "other")
-    ("f" find-file "file")
-    ("F" find-file-other-window "other file")
-    ("o" delete-other-windows :color blue)))
+;; Quadrants
+
+(require 'windmove)
+
+(defun my/quadrants ()
+  (interactive)
+  (progn
+    (split-window-right)
+    (windmove-right)
+    (split-window-below)
+    (windmove-left)
+    (split-window-below)))
 
 ;; Key chords
 
@@ -197,7 +198,8 @@
     (setq key-chord-one-key-delay 0.2)
     (key-chord-mode 1)
     (key-chord-define-global "uu" 'undo)
-    (key-chord-define-global "yy" 'my/window-movement/body)))
+    (key-chord-define-global "yy" 'ace-window)
+    (key-chord-define-global "zz" 'my/quadrants)))
 
 ;;
 
