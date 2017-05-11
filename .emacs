@@ -162,6 +162,8 @@
 
 (add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-mode))
 
+(define-key cargo-minor-mode-map (kbd "C-c C-c C-m") nil)
+
 ;; ace-window
 
 (require 'ace-window)
@@ -222,3 +224,4 @@
  )
 
 (put 'set-goal-column 'disabled nil)
+(put 'narrow-to-region 'disabled nil)
