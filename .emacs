@@ -162,6 +162,7 @@
 
 (add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-mode))
 
+(require 'cargo)
 (define-key cargo-minor-mode-map (kbd "C-c C-c C-m") nil)
 
 ;; ace-window
