@@ -204,6 +204,24 @@
     (key-chord-define-global "yy" 'ace-window)
     (key-chord-define-global "zz" 'my/quadrants)))
 
+;; Electric pairs always on
+(electric-pair-mode t)
+
+;; corral - an alternative to smartparens/paredit
+
+(require 'corral)
+
+(global-set-key (kbd "C-(") 'corral-parentheses-backward)
+(global-set-key (kbd "C-)") 'corral-parentheses-forward)
+(global-set-key (kbd "C-{") 'corral-braces-backward)
+(global-set-key (kbd "C-}") 'corral-braces-forward)
+(global-set-key (kbd "M-[") 'corral-brackets-backward)
+(global-set-key (kbd "M-]") 'corral-brackets-forward)
+(global-set-key (kbd "M-'") 'corral-double-quotes-backward)
+
+;; use Hack as default font
+(set-default-font "Hack")
+
 ;;
 
 (custom-set-variables
@@ -216,7 +234,7 @@
     ("14f0fbf6f7851bfa60bf1f30347003e2348bf7a1005570fd758133c87dafe08f" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" default)))
  '(package-selected-packages
    (quote
-    (toml-mode avy ace-window ace-jump-mode key-chord typing markdown-mode which-key discover-my-major f company-racer racer cargo company geben-helm-projectile counsel-projectile counsel ivy magit rust-mode csharp-mode zenburn-theme color-theme-solarized ##))))
+    (corral toml-mode avy ace-window ace-jump-mode key-chord typing markdown-mode which-key discover-my-major f company-racer racer cargo company geben-helm-projectile counsel-projectile counsel ivy magit rust-mode csharp-mode zenburn-theme color-theme-solarized ##))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
