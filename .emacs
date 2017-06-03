@@ -222,6 +222,10 @@
 ;; use Hack as default font
 (set-default-font "Hack")
 
+;; Custom input method for Russian
+(load-file "~/.emacs.d/russian-dvp.el")
+(setq default-input-method "russian-dvp")
+
 ;;
 
 (custom-set-variables
