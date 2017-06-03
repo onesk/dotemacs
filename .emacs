@@ -142,7 +142,6 @@
 (add-to-list 'auto-mode-alist '("\\.md\\'" . gfm-mode))
 
 ;; toml-mode
-
 (require 'toml-mode)
 (add-to-list 'auto-mode-alist '("\\.toml\\'" . toml-mode))
 
@@ -225,6 +224,12 @@
 ;; Custom input method for Russian
 (load-file "~/.emacs.d/russian-dvp.el")
 (setq default-input-method "russian-dvp")
+
+;; Org mode
+(require 'org)
+(global-set-key (kbd "C-c l") 'org-store-link)
+(global-set-key (kbd "C-c a") 'org-agenda)
+;; (global-set-key (kbd "C-c c") 'org-capture)
 
 ;;
 
