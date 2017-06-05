@@ -9,6 +9,9 @@
 (import-shell-var "PATH" t)
 (import-shell-var "RUST_SRC_PATH" nil)
 
+;; org-mode by default
+(setq-default major-mode 'org-mode)
+
 ;; ELPA / MELPA setup
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
