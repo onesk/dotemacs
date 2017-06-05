@@ -254,6 +254,8 @@
  '(package-selected-packages
    (quote
     (dockerfile-mode org corral toml-mode avy ace-window ace-jump-mode key-chord typing markdown-mode which-key discover-my-major f company-racer racer cargo company geben-helm-projectile counsel-projectile counsel ivy magit rust-mode csharp-mode zenburn-theme color-theme-solarized ##))))
+    (yaml-mode dockerfile-mode org corral toml-mode avy ace-window ace-jump-mode key-chord typing markdown-mode which-key discover-my-major f company-racer racer cargo company geben-helm-projectile counsel-projectile counsel ivy magit rust-mode csharp-mode zenburn-theme color-theme-solarized ##)))
+ '(safe-local-variable-values
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
