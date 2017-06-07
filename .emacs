@@ -240,6 +240,18 @@
 (require 'dockerfile-mode)
 (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode))
 
+;; Allow disabling ivy completion on C-x C-f with universal argument
+;; (for TRAMP use, for example)
+
+(defun find-file-disable-ivy (uniarg)
+  (interactive "P")
+  (let ((completing-read-function (if uniarg
+                                      'completing-read-default
+                                       completing-read-function)))
+    (call-interactively 'find-file)))
+
+(global-set-key (kbd "C-x C-f") 'find-file-disable-ivy)
+
 ;;
 
 (custom-set-variables
@@ -253,9 +265,13 @@
  '(org-agenda-files (quote ("~/orgfiles/life.org" "~/orgfiles/audi.org")))
  '(package-selected-packages
    (quote
-    (dockerfile-mode org corral toml-mode avy ace-window ace-jump-mode key-chord typing markdown-mode which-key discover-my-major f company-racer racer cargo company geben-helm-projectile counsel-projectile counsel ivy magit rust-mode csharp-mode zenburn-theme color-theme-solarized ##))))
     (yaml-mode dockerfile-mode org corral toml-mode avy ace-window ace-jump-mode key-chord typing markdown-mode which-key discover-my-major f company-racer racer cargo company geben-helm-projectile counsel-projectile counsel ivy magit rust-mode csharp-mode zenburn-theme color-theme-solarized ##)))
  '(safe-local-variable-values
+   (quote
+    ((org-todo-keyword-faces
+      ("TODO" . "red")
+      ("INPROGRESS" . "orange")
+      ("DONE" . "green"))))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
