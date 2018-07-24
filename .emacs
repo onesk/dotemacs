@@ -265,7 +265,7 @@
  '(org-agenda-files (quote ("~/orgfiles/life.org" "~/orgfiles/audi.org")))
  '(package-selected-packages
    (quote
-    (nginx-mode yaml-mode dockerfile-mode org corral toml-mode avy ace-window ace-jump-mode key-chord typing markdown-mode which-key discover-my-major f company-racer racer cargo company geben-helm-projectile counsel-projectile counsel ivy magit rust-mode csharp-mode zenburn-theme color-theme-solarized ##)))
+    (solidity-mode nginx-mode yaml-mode dockerfile-mode org corral toml-mode avy ace-window ace-jump-mode key-chord typing markdown-mode which-key discover-my-major f company-racer racer cargo company geben-helm-projectile counsel-projectile counsel ivy magit rust-mode csharp-mode zenburn-theme color-theme-solarized ##)))
  '(safe-local-variable-values
    (quote
     ((org-todo-keyword-faces
