@@ -1,13 +1,13 @@
 ;; inherit bashrc defaults
 
-(defun import-shell-var (name set-exec)
-  (let ((value-from-shell (replace-regexp-in-string "[ \t\n]*$" "" (shell-command-to-string (concat "$SHELL --login -i -c 'echo $" name "'")))))
-    (setenv name value-from-shell)
-    (when set-exec
-      (setq exec-path (split-string value-from-shell path-separator)))))
+;; (defun import-shell-var (name set-exec)
+;;   (let ((value-from-shell (replace-regexp-in-string "[ \t\n]*$" "" (shell-command-to-string (concat "$SHELL --login -i -c 'echo $" name "'")))))
+;;     (setenv name value-from-shell)
+;;     (when set-exec
+;;       (setq exec-path (split-string value-from-shell path-separator)))))
 
-(import-shell-var "PATH" t)
-(import-shell-var "RUST_SRC_PATH" nil)
+;; (import-shell-var "PATH" t)
+;; (import-shell-var "RUST_SRC_PATH" nil)
 
 ;; org-mode by default
 (setq-default major-mode 'org-mode)
@@ -39,6 +39,9 @@
 
 ;; color theming
 (load-theme 'zenburn t)
+
+;; colunm numbers
+(setq column-number-mode t)
 
 ;; default indentation
 (setq-default default-tab-width 4)
@@ -99,13 +102,6 @@
 (setq ivy-use-virtual-buffers t)
 (setq ivy-count-format "(%d/%d) ")
 
-;; projectile (w/counsel)
-(setq projectile-keymap-prefix (kbd "C-c C-p"))
-(require 'projectile)
-
-(projectile-mode)
-(counsel-projectile-on)
-
 ;; company
 (require 'company)
 (setq company-idle-delay nil)
@@ -150,24 +146,25 @@
 (require 'toml-mode)
 (add-to-list 'auto-mode-alist '("\\.toml\\'" . toml-mode))
 
-;; Rust development environment
-(require 'racer)
+;; Rust
+(use-package flycheck)
+(use-package rustic)
 
-(add-hook 'rust-mode-hook
-          (lambda () (local-set-key (kbd "C-c <tab>") #'rust-format-buffer)))
+(add-hook 'eglot--managed-mode-hook (lambda () (flymake-mode -1)))
 
-(setq racer-cmd (concat (getenv "HOME") "/.cargo/bin/racer"))
-(setq racer-rust-src-path (expand-file-name (getenv "RUST_SRC_PATH")))
+(setq rustic-lsp-client 'eglot)
+(setq rustic-lsp-server 'rust-analyzer)
 
-(add-hook 'rust-mode-hook #'racer-mode)
-(add-hook 'rust-mode-hook #'cargo-minor-mode)
-(add-hook 'racer-mode-hook #'eldoc-mode)
-(add-hook 'racer-mode-hook #'company-mode)
-
-(add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-mode))
-
-(require 'cargo)
-(define-key cargo-minor-mode-map (kbd "C-c C-c C-m") nil)
+(setq lsp-rust-analyzer-display-chaining-hints t)
+(setq lsp-rust-analyzer-display-parameter-hints nil)
+(setq lsp-rust-analyzer-macro-expansion-method 'rustic-analyzer-macro-expand)
+(setq lsp-rust-analyzer-server-command '("~/.local/bin/rust-analyzer"))
+(setq lsp-rust-analyzer-server-display-inlay-hints nil)
+(setq lsp-rust-full-docs t)
+(setq lsp-rust-server 'rust-analyzer)
+(setq lsp-ui-doc-alignment 'window)
+(setq lsp-ui-doc-position 'top)
+(setq lsp-ui-sideline-enable nil)
 
 ;; ace-window
 
@@ -224,7 +221,7 @@
 (global-set-key (kbd "M-'") 'corral-double-quotes-backward)
 
 ;; use Hack as default font
-(set-default-font "Hack")
+(set-frame-font "Hack")
 
 ;; Custom input method for Russian
 (load-file "~/.emacs.d/russian-dvp.el")
@@ -262,18 +259,16 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
-   (quote
-    ("14f0fbf6f7851bfa60bf1f30347003e2348bf7a1005570fd758133c87dafe08f" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" default)))
- '(org-agenda-files (quote ("~/orgfiles/life.org" "~/orgfiles/audi.org")))
+   '("14f0fbf6f7851bfa60bf1f30347003e2348bf7a1005570fd758133c87dafe08f" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" default))
+ '(lsp-log-io t)
+ '(org-agenda-files '("~/orgfiles/life.org" "~/orgfiles/audi.org"))
  '(package-selected-packages
-   (quote
-    (typescript-mode rjsx-mode solidity-mode nginx-mode yaml-mode dockerfile-mode org corral toml-mode avy ace-window ace-jump-mode key-chord typing markdown-mode which-key discover-my-major f company-racer racer cargo company geben-helm-projectile counsel-projectile counsel ivy magit rust-mode csharp-mode zenburn-theme color-theme-solarized ##)))
+   '(counsel swiper ivy eglot lsp-ui flycheck rustic with-emacs lsp-mode typescript-mode rjsx-mode solidity-mode nginx-mode yaml-mode dockerfile-mode org corral toml-mode avy ace-window ace-jump-mode key-chord typing markdown-mode which-key discover-my-major f company-racer racer cargo company geben-helm-projectile magit rust-mode csharp-mode zenburn-theme color-theme-solarized ##))
  '(safe-local-variable-values
-   (quote
-    ((org-todo-keyword-faces
+   '((org-todo-keyword-faces
       ("TODO" . "red")
       ("INPROGRESS" . "orange")
-      ("DONE" . "green"))))))
+      ("DONE" . "green")))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
