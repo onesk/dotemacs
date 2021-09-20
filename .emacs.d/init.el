@@ -113,20 +113,18 @@
 
 ;; company
 (use-package company
-  :bind (:map
-         global-map
+  :bind (:map global-map
          ("TAB" . company-complete-common-or-cycle)
-         ;; Use hippie expand as secondary auto complete. It is useful as it is
-         ;; 'buffer-content' aware (it uses all buffers for that).
          ("M-/" . hippie-expand)
+         ("M-l" . company-complete)
          :map company-active-map
-         ("C-n" . company-select-next)
-         ("C-p" . company-select-previous))
+         ("c-n" . company-select-next)
+         ("c-p" . company-select-previous))
   :config
-  (setq company-idle-delay 0.1)
   (global-company-mode t)
+  (setq company-idle-delay nil)
 
-  ;; Configure hippie expand as well.
+  ;; configure hippie expand as well.
   (setq hippie-expand-try-functions-list
         '(try-expand-dabbrev
           try-expand-dabbrev-all-buffers
@@ -157,17 +155,17 @@
 (use-package toml-mode)
 
 ;; flycheck
-(use-package flycheck :ensure)
+(use-package flycheck
+  :custom
+  (flycheck-highlighting-style nil))
 
 ;; lsp
 (use-package lsp-mode
   :commands lsp
   :custom
-  ;; what to use when checking on-save. "check" is default, I prefer clippy
-  (lsp-rust-analyzer-cargo-watch-command "clippy")
+  (lsp-rust-analyzer-cargo-watch-command "check")
   (lsp-eldoc-render-all t)
   (lsp-idle-delay 0.6)
-  (lsp-rust-analyzer-server-display-inlay-hints t)
   :config
   (add-hook 'lsp-mode-hook 'lsp-ui-mode))
 
@@ -176,7 +174,9 @@
   :custom
   (lsp-ui-peek-always-show t)
   (lsp-ui-sideline-show-hover t)
-  (lsp-ui-doc-enable nil))
+  (lsp-ui-doc-enable nil)
+  (lsp-ui-sideline-enable nil)
+  (lsp-modeline-code-actions-enable nil))
 
 ;; Rust
 (use-package rustic
@@ -190,13 +190,11 @@
               ("C-c C-c Q" . lsp-workspace-shutdown)
               ("C-c C-c s" . lsp-rust-analyzer-status))
   :config
-  ;; uncomment for less flashiness
-  ;; (setq lsp-eldoc-hook nil)
-  ;; (setq lsp-enable-symbol-highlighting nil)
-  ;; (setq lsp-signature-auto-activate nil)
+  (setq lsp-enable-symbol-highlighting nil
+        lsp-signature-auto-activate nil
+        lsp-lens-enable nil
+        lsp-headerline-breadcrumb-enable nil)
 
-  ;; comment to disable rustfmt on save
-  (setq rustic-format-on-save t)
   (add-hook 'rustic-mode-hook 'rustic-mode-hook))
 
 (defun rustic-mode-hook ()

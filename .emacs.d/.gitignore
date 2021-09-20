@@ -2,4 +2,5 @@ auto-save-list/**
 backups/**
 elpa/**
 transient/**
+.lsp-session-*
 url/**
