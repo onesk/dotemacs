@@ -63,7 +63,6 @@
 
 ;; color theming
 (use-package zenburn-theme
-  :ensure t
   :config
   (load-theme 'zenburn t))
 
@@ -164,18 +163,22 @@
   :commands lsp
   :custom
   (lsp-rust-analyzer-cargo-watch-command "check")
-  (lsp-eldoc-render-all t)
-  (lsp-idle-delay 0.6)
+  (lsp-eldoc-render-all nil)
+  (lsp-idle-delay 1.0)
+  (lsp-enable-symbol-highlighting nil)
+  (lsp-signature-auto-activate nil)
+  (lsp-lens-enable nil)
+  (lsp-headerline-breadcrumb-enable nil)
   :config
   (add-hook 'lsp-mode-hook 'lsp-ui-mode))
 
 (use-package lsp-ui
   :commands lsp-ui-mode
   :custom
-  (lsp-ui-peek-always-show t)
-  (lsp-ui-sideline-show-hover t)
-  (lsp-ui-doc-enable nil)
+  (lsp-ui-peek-always-show nil)
+  (lsp-ui-sideline-show-hover nil)
   (lsp-ui-sideline-enable nil)
+  (lsp-ui-doc-enable nil)
   (lsp-modeline-code-actions-enable nil))
 
 ;; Rust
@@ -183,6 +186,7 @@
   :bind (:map rustic-mode-map
               ("M-j" . lsp-ui-imenu)
               ("M-?" . lsp-find-references)
+              ("C-?" . lsp-describe-thing-at-point)
               ("C-c C-c l" . flycheck-list-errors)
               ("C-c C-c a" . lsp-execute-code-action)
               ("C-c C-c r" . lsp-rename)
@@ -190,11 +194,6 @@
               ("C-c C-c Q" . lsp-workspace-shutdown)
               ("C-c C-c s" . lsp-rust-analyzer-status))
   :config
-  (setq lsp-enable-symbol-highlighting nil
-        lsp-signature-auto-activate nil
-        lsp-lens-enable nil
-        lsp-headerline-breadcrumb-enable nil)
-
   (add-hook 'rustic-mode-hook 'rustic-mode-hook))
 
 (defun rustic-mode-hook ()
@@ -204,6 +203,36 @@
   ;; no longer be necessary.
   (when buffer-file-name
     (setq-local buffer-save-without-query t)))
+
+;; Typescript
+(defun setup-tide-mode ()
+    (interactive)
+    (tide-setup)
+    (flycheck-mode)
+    (eldoc-mode)
+    (lsp))
+
+(use-package tide
+  :bind (:map tide-mode-map
+              ("M-j" . lsp-ui-imenu)
+              ("M-?" . lsp-find-references)
+              ("C-?" . lsp-describe-thing-at-point)
+              ("C-c C-c l" . flycheck-list-errors)
+              ("C-c C-c r" . tide-rename-symbol))
+  :config
+
+  (add-hook 'typescript-mode-hook #'setup-tide-mode))
+
+(use-package web-mode
+  :config
+  (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
+  (add-hook 'web-mode-hook
+            (lambda ()
+              (when (string-equal "tsx" (file-name-extension buffer-file-name))
+                (setup-tide-mode))))
+
+  (flycheck-add-mode 'typescript-tslint 'web-mode)
+  (add-hook 'web-mode-hook #'setup-tide-mode))
 
 ;; ace-window
 (use-package ace-window
