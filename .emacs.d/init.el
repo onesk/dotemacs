@@ -45,6 +45,12 @@
 ;; Change all yes/no questions to y/n type
 (fset 'yes-or-no-p 'y-or-n-p)
 
+;; OS X path fix
+(use-package exec-path-from-shell
+  :config
+  (when (memq window-system '(mac ns x)))
+  (exec-path-from-shell-initialize))
+
 ;; binding & modeline
 (use-package delight)
 (use-package diminish)
@@ -125,44 +131,21 @@
          ("TAB" . company-complete-common-or-cycle)
          ("C-n" . company-select-next)
          ("C-p" . company-select-previous))
-         ;; ("M-a" . "M-1")
-         ;; ("M-o" . "M-2")
-         ;; ("M-e" . "M-3")
-         ;; ("M-u" . "M-4")
-         ;; ("M-i" . "M-5")
-         ;; ("M-d" . "M-6")
-         ;; ("M-h" . "M-7")
-         ;; ("M-t" . "M-8")
-         ;; ("M-n" . "M-9")
-         ;; ("M-s" . "M-0"))
-  :config
-  (global-company-mode t)
-  (setq company-show-numbers t)
-  (setq company-idle-delay nil)
-  (setq company-show-numbers-function #'my/company-quick-access-key)
+  :custom
+  (company-show-numbers t)
+  (company-idle-delay nil)
 
-  ;; configure hippie expand as well.
-  (setq hippie-expand-try-functions-list
+  (hippie-expand-try-functions-list
         '(try-expand-dabbrev
           try-expand-dabbrev-all-buffers
           try-expand-dabbrev-from-kill
           try-complete-lisp-symbol-partially
-          try-complete-lisp-symbol)))
+          try-complete-lisp-symbol))
 
-(defun my/company-quick-access-key (numbered)
-  (let ((value (mod numbered 10)))
-    (format " %s"
-            (cond ((eql value 1) "a")
-                  ((eql value 2) "o")
-                  ((eql value 3) "e")
-                  ((eql value 4) "u")
-                  ((eql value 5) "i")
-                  ((eql value 6) "d")
-                  ((eql value 7) "h")
-                  ((eql value 8) "t")
-                  ((eql value 9) "n")
-                  (t "s")))))
+  (company-quick-access-keys '(";" "," "y" "a" "o" "e" "u" "q" "j" "k"))
 
+  :config
+  (global-company-mode t))
 
 ;; trailing ws delete
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
@@ -193,6 +176,16 @@
 
 ;; lsp
 (use-package lsp-mode
+  :bind (:map lsp-mode-map
+              ("M-j" . lsp-ui-imenu)
+              ("M-?" . lsp-find-references)
+              ("C-?" . lsp-describe-thing-at-point)
+              ("C-c C-c l" . flycheck-list-errors)
+              ("C-c C-c a" . lsp-execute-code-action)
+              ("C-c C-c r" . lsp-rename)
+              ("C-c C-c q" . lsp-workspace-restart)
+              ("C-c C-c Q" . lsp-workspace-shutdown)
+              ("C-c C-c s" . lsp-rust-analyzer-status))
   :commands lsp
   :custom
   (lsp-rust-analyzer-cargo-watch-command "check")
@@ -216,16 +209,6 @@
 
 ;; Rust
 (use-package rustic
-  :bind (:map rustic-mode-map
-              ("M-j" . lsp-ui-imenu)
-              ("M-?" . lsp-find-references)
-              ("C-?" . lsp-describe-thing-at-point)
-              ("C-c C-c l" . flycheck-list-errors)
-              ("C-c C-c a" . lsp-execute-code-action)
-              ("C-c C-c r" . lsp-rename)
-              ("C-c C-c q" . lsp-workspace-restart)
-              ("C-c C-c Q" . lsp-workspace-shutdown)
-              ("C-c C-c s" . lsp-rust-analyzer-status))
   :config
   (add-hook 'rustic-mode-hook 'rustic-mode-hook))
 
@@ -246,14 +229,7 @@
     (lsp))
 
 (use-package tide
-  :bind (:map tide-mode-map
-              ("M-j" . lsp-ui-imenu)
-              ("M-?" . lsp-find-references)
-              ("C-?" . lsp-describe-thing-at-point)
-              ("C-c C-c l" . flycheck-list-errors)
-              ("C-c C-c r" . tide-rename-symbol))
   :config
-
   (add-hook 'typescript-mode-hook #'setup-tide-mode))
 
 (use-package web-mode
@@ -289,8 +265,7 @@
     (setq key-chord-one-key-delay 0.2)
     (key-chord-mode 1)
     (key-chord-define-global "uu" 'undo)
-    (key-chord-define-global "yy" 'ace-window)
-    (key-chord-define-global "zz" 'my/quadrants)))
+    (key-chord-define-global "yy" 'ace-window)))
 
 ;; Electric pairs always on
 (electric-pair-mode t)
