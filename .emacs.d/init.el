@@ -110,18 +110,36 @@
         ivy-initial-inputs-alist nil)
   (ivy-mode t))
 
+;; yasnippet
+(use-package yasnippet
+  :config
+  (add-to-list 'yas-snippet-dirs "~/.emacs.d/snippets")
+  (yas-global-mode 1))
+
 ;; company
 (use-package company
   :bind (:map global-map
-         ("TAB" . company-complete-common-or-cycle)
          ("M-/" . hippie-expand)
          ("M-l" . company-complete)
          :map company-active-map
-         ("c-n" . company-select-next)
-         ("c-p" . company-select-previous))
+         ("TAB" . company-complete-common-or-cycle)
+         ("C-n" . company-select-next)
+         ("C-p" . company-select-previous))
+         ;; ("M-a" . "M-1")
+         ;; ("M-o" . "M-2")
+         ;; ("M-e" . "M-3")
+         ;; ("M-u" . "M-4")
+         ;; ("M-i" . "M-5")
+         ;; ("M-d" . "M-6")
+         ;; ("M-h" . "M-7")
+         ;; ("M-t" . "M-8")
+         ;; ("M-n" . "M-9")
+         ;; ("M-s" . "M-0"))
   :config
   (global-company-mode t)
+  (setq company-show-numbers t)
   (setq company-idle-delay nil)
+  (setq company-show-numbers-function #'my/company-quick-access-key)
 
   ;; configure hippie expand as well.
   (setq hippie-expand-try-functions-list
@@ -130,6 +148,21 @@
           try-expand-dabbrev-from-kill
           try-complete-lisp-symbol-partially
           try-complete-lisp-symbol)))
+
+(defun my/company-quick-access-key (numbered)
+  (let ((value (mod numbered 10)))
+    (format " %s"
+            (cond ((eql value 1) "a")
+                  ((eql value 2) "o")
+                  ((eql value 3) "e")
+                  ((eql value 4) "u")
+                  ((eql value 5) "i")
+                  ((eql value 6) "d")
+                  ((eql value 7) "h")
+                  ((eql value 8) "t")
+                  ((eql value 9) "n")
+                  (t "s")))))
+
 
 ;; trailing ws delete
 (add-hook 'before-save-hook 'delete-trailing-whitespace)

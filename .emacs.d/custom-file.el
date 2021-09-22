@@ -7,7 +7,7 @@
    '("14f0fbf6f7851bfa60bf1f30347003e2348bf7a1005570fd758133c87dafe08f" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" default))
  '(lsp-log-io t)
  '(package-selected-packages
-   '(web-mode tide flycheck dockerfile-mode key-chord ace-window rustic lsp-ui lsp-mode toml-mode markdown-mode company counsel magit ace-jump-mode ##))
+   '(yasnippet web-mode tide flycheck dockerfile-mode key-chord ace-window rustic lsp-ui lsp-mode toml-mode markdown-mode company counsel magit ace-jump-mode ##))
  '(safe-local-variable-values
    '((org-todo-keyword-faces
       ("TODO" . "red")
