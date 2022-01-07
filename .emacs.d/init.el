@@ -128,7 +128,6 @@
          ("M-/" . hippie-expand)
          ("M-l" . company-complete)
          :map company-active-map
-         ("TAB" . company-complete-common-or-cycle)
          ("C-n" . company-select-next)
          ("C-p" . company-select-previous))
   :custom
@@ -220,6 +219,23 @@
   (when buffer-file-name
     (setq-local buffer-save-without-query t)))
 
+;; Scala
+
+(use-package scala-mode
+  :interpreter
+  ("scala" . scala-mode))
+
+(use-package sbt-mode
+  :commands sbt-start sbt-command
+  :config
+  ;; WORKAROUND: https://github.com/ensime/emacs-sbt-mode/issues/31
+  ;; allows using SPACE when in the minibuffer
+  (substitute-key-definition 'minibuffer-complete-word 'self-insert-command minibuffer-local-completion-map)
+   ;; sbt-supershell kills sbt-mode:  https://github.com/hvesalai/emacs-sbt-mode/issues/152
+  (setq sbt:program-options '("-Dsbt.supershell=false")))
+
+(use-package lsp-metals)
+
 ;; Typescript
 (defun setup-tide-mode ()
     (interactive)
@@ -293,3 +309,33 @@
     (call-interactively 'find-file)))
 
 (global-set-key (kbd "C-x C-f") 'find-file-disable-ivy)
+
+;; Terminal popup not to switch out of Emacs
+
+(defun my/ansi-term-toggle ()
+  "Toggle ansi-term window on and off with the same command."
+  (interactive)
+  (defvar my--ansi-term-name "ansi-term-popup")
+  (defvar my--window-name (concat "*" my--ansi-term-name "*"))
+  (cond ((get-buffer-window my--window-name)
+         (ignore-errors (delete-window
+                         (get-buffer-window my--window-name))))
+        (t (split-window-below)
+           (other-window 1)
+           (cond ((get-buffer my--window-name)
+                  (switch-to-buffer my--window-name))
+                 (t (ansi-term "bash" my--ansi-term-name))))))
+
+(global-set-key (kbd "C-.") 'my/ansi-term-toggle)
+
+;; Dired inline subtrees for ceremonial languages (hello Java).
+
+(use-package dired-subtree
+  :ensure t
+  :init (setq dired-subtree-use-backgrounds nil)
+  :config (bind-keys :map dired-mode-map
+                     ;; With C-u prefix expands N deep.
+                     ;; C-u TAB will expand 4
+                     ;; C-u C-u TAB will expand 16
+                     ;; C-u C-u C-u TAB will expand 64
+                     ("TAB" . dired-subtree-cycle)))
